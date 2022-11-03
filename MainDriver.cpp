@@ -7,7 +7,7 @@
 
 
 using namespace std;
-
+/*
 int main()
 {
     // Map 
@@ -25,3 +25,4 @@ int main()
     //GameEngine
     testGameStates();
 }
+ */

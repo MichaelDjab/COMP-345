@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../LoggingObserver/LoggingObserver.h"
+
 using std::cout;
 using std::cin;
 using std::string;
@@ -17,21 +19,27 @@ using std::endl;
 //         of the game. With the currentState object, the game engine is able to transition to valid states from
 //         appropriate user input.
 //
-class GameEngine {
+class GameEngine : public ILoggable, public Subject {
 
 private:
     class State* currentState;
+
 public:
     GameEngine(); //default constructor
     ~GameEngine(); //destructor
     GameEngine(State* state); //parametrized constructor
     GameEngine(const GameEngine& g); //copy constructor
+    GameEngine(Observer* _obs);
     GameEngine& operator =(const GameEngine& g); //assignment operator
     State* getCurrentState(); //currentState getter
     void setCurrentState(State* state); //currentState setter
     void nextState(State* nextState); //method to change state
     static int turn; //count iterations of main game phase
     friend ostream& operator <<(ostream& stream, const GameEngine& g); //stream insertion operator
+    Observer *_observer;
+
+    string stringToLog();
+
 };
 
 

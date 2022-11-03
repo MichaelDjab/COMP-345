@@ -34,7 +34,9 @@ GameEngine::~GameEngine() {
     delete currentState;
     currentState = nullptr;
 }
-
+GameEngine::GameEngine(Observer* _obs){ //testing purpose A2
+    this->Attach(_obs);
+}
 //parametrized constructor
 GameEngine::GameEngine(State* state) {
     currentState = state;
@@ -444,4 +446,10 @@ void endState::transition(GameEngine *gameEngine, string command) {
         exit(0);
     }
     else cout << "\nYou have entered an invalid command for the 'Win' state...\n";
+}
+
+
+string GameEngine::stringToLog() {
+
+    return "Current GameEngine State: ";
 }
