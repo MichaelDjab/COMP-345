@@ -36,7 +36,7 @@ public:
     void nextState(State* nextState); //method to change state
     static int turn; //count iterations of main game phase
     friend ostream& operator <<(ostream& stream, const GameEngine& g); //stream insertion operator
-    Observer *_observer;
+    Observer * _observers = nullptr;
 
     string stringToLog();
 

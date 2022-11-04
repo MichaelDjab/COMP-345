@@ -15,25 +15,26 @@ LogObserver::LogObserver() {}
 
 
 Subject::Subject() {
-    _observers = new list<Observer *>;
 }
-
+Subject::~Subject(){
+    this->_observers = nullptr;
+}
 void Subject::Attach(Observer* o){
-    _observers->push_back(o);
+    _observers = o;
 }
 
 void Subject::Detach(Observer* o){
-    _observers->remove(o);
+    if(_observers != nullptr){
+        _observers = nullptr;
+    }
 }
 void Subject::Notify(ILoggable* _loggable_object){
 
-
-
-    list<Observer *>::iterator i = _observers->begin();
-    for (; i != _observers->end(); ++i) {
-        cout << typeid(*i).name();
-        (*i)->Update(_loggable_object);
+    if(_observers != nullptr){
+        _observers->Update(_loggable_object);
     }
+
+
 }
 
 

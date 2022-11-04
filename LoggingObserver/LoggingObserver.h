@@ -38,8 +38,9 @@ public:
     virtual void Notify(ILoggable* _loggable_object);
 
     Subject();
+    ~Subject();
 private:
-    list<Observer *> *_observers;
+    Observer * _observers;
 
 };
 

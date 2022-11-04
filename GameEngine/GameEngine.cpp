@@ -35,7 +35,9 @@ GameEngine::~GameEngine() {
     currentState = nullptr;
 }
 GameEngine::GameEngine(Observer* _obs){ //testing purpose A2
+    _observers = _obs;
     this->Attach(_obs);
+
 }
 //parametrized constructor
 GameEngine::GameEngine(State* state) {

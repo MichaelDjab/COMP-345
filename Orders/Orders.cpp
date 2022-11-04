@@ -54,7 +54,7 @@ Deploy::Deploy() = default;
 
 Deploy::Deploy(GameEngine* game) {
     this->game = game;
-    this->Attach(game->_observer);
+    this->Attach(game->_observers);
 
 }
 /**
