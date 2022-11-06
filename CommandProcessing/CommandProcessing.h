@@ -1,5 +1,7 @@
 #pragma once
 #include "../GameEngine/GameEngine.h"
+#include "../LoggingObserver/LoggingObserver.h"
+
 #include <vector>
 #include <string>
 
@@ -14,7 +16,7 @@ class State;
  * @brief Command class
  *
  */
-class Command
+class Command : public ILoggable, public Subject
 {
 public:
 
@@ -28,7 +30,7 @@ public:
      *
      * @param typed_command
      */
-    Command();
+    Command(Observer* _obs);
 
     /**
      * @brief Constructor: Construct a new Command object
@@ -73,11 +75,13 @@ public:
     // Getters and setters for the command effect
     string get_command_effect();
     void set_command_effect(string command_effect);
+    string stringToLog();
 
 private:
     // Private typed command and command effect
     string typed_command;
     string command_effect;
+
 };
 
 
@@ -90,7 +94,7 @@ private:
  * @brief CommandProcessor class
  *
  */
-class CommandProcessor
+class CommandProcessor : public ILoggable, public Subject
 {
 public:
 
@@ -99,6 +103,8 @@ public:
 
      */
     CommandProcessor();
+
+    CommandProcessor(Observer* _obs);
 
     /**
      * @brief Copy constructor: Construct a new CommandProcessor object
@@ -160,5 +166,6 @@ private:
      * @return
      */
     bool validate(Command* command, GameEngine* game);
+    string stringToLog();
 
 };

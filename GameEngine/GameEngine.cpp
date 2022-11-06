@@ -29,6 +29,16 @@ GameEngine::GameEngine() {
     commandProcessor = new CommandProcessor();
     currentState = new startupState();
     map = nullptr;
+
+}
+
+GameEngine::GameEngine(Observer* _obs) {
+    commandProcessor = new CommandProcessor(_obs);
+    command = new Command(_obs);
+    currentState = new startupState();
+    map = nullptr;
+    _observers = _obs;
+    this->Attach(_obs);
 }
 
 //destructor
@@ -50,6 +60,8 @@ GameEngine::GameEngine(State* state) {
 GameEngine::GameEngine(const GameEngine &g) {
     currentState = g.currentState->clone(); //using clone method to create a deep copy
 }
+
+
 
 //assignment operator
 GameEngine &GameEngine::operator=(const GameEngine &g) {
@@ -598,4 +610,8 @@ void endState::transition(GameEngine *gameEngine, string command) {
         exit(0);
     }
     else cout << "\nYou have entered an invalid command for the 'Win' state...\n";
+}
+
+string GameEngine::stringToLog() {
+   return "GameEngine string to log";
 }

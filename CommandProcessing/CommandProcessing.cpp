@@ -8,8 +8,9 @@
  * @brief Constructor: Construct a new Command
  *
  */
-Command::Command() {
+Command::Command(Observer* _obs) {
     this->typed_command = "";
+    this->Attach(_obs);
 }
 
 /**
@@ -87,6 +88,8 @@ void Command::set_typed_command(std::string typed_command)
  */
 void Command::saveEffect(std::string command_effect) {
     this->set_command_effect(command_effect);
+    Notify(this);
+
 }
 
 //*****************************************************************
@@ -97,7 +100,13 @@ void Command::saveEffect(std::string command_effect) {
  *
  * @param typed_command
  */
+
 CommandProcessor::CommandProcessor() {
+
+}
+
+CommandProcessor::CommandProcessor(Observer* _obs) {
+    this->Attach(_obs);
 }
 
 /**
@@ -209,6 +218,8 @@ void CommandProcessor::saveCommand(Command* c){
     this->commands.push_back(c);
     cout << "\033[1;32m\t\t[Command saved]\033[0m\n" << endl;
     cout << "\033[1;32m\t[Exiting saveCommand()]]\033[0m\n" << endl;
+    Notify(this);
+
 }
 
 /**
@@ -243,5 +254,21 @@ bool CommandProcessor::validate(Command* command, GameEngine* game){
 }
 
 
+string Command::stringToLog()
+{
+
+    string command = "Commands:  " + get_typed_command();
+    string command_effect = "\nCommand effect: " + get_command_effect();
+    return command + command_effect;
+}
+string CommandProcessor::stringToLog()
+{
+    string output = "Inserted command: ";
+    vector<Command*> temp = get_commands();
+    for(Command* x : temp){
+        output += x->get_typed_command() + "\n";
+    }
+    return output;
+}
 
 //*****************************************************************

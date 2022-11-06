@@ -11,8 +11,11 @@ using namespace std;
 void testCommandProcessor(){
     cout << "\nTESTING COMMAND PROCESSING\n\n";
 
+    Observer* _observers = new LogObserver();
+
+
     GameEngine* game;
-    game = new GameEngine();
+    game = new GameEngine(_observers);
 
     game->startupPhase();
 
@@ -29,7 +32,7 @@ void testCommandProcessor(){
 
 }
 
-
-//int main(){
-//    testCommandProcessor();
-//}
+/*
+int main(){
+   testCommandProcessor();
+}*/
