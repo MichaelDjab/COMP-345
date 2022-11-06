@@ -6,9 +6,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "../LoggingObserver/LoggingObserver.h"
+#include "../GameEngine/GameEngine.h"
+
 using namespace std;
 
-class Order {
+class Order : public ILoggable, public Subject{
 public:
     // constructor
     Order();
@@ -22,7 +25,7 @@ public:
     // verifies if order is valid
     virtual bool validate() const = 0;
     // execute order
-    virtual void execute() const = 0;
+    virtual void execute() = 0;
     // get order type
     virtual string getOrderType() const = 0;
     // clone order
@@ -30,21 +33,25 @@ public:
     // return order effect string
     virtual string orderEffect() const = 0;
 
+    string stringToLog();
+
+
     friend class OrdersList;
 };
 
 class Deploy : public Order {
 public:
     // constructor
-    Deploy();
-    // destructor
+    Deploy(GameEngine* game);
+
+// destructor
     ~Deploy();
     // stream insertion operator
     friend ostream& operator << (ostream& out,  const Deploy& o);
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -54,13 +61,15 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
 class Advance : public Order {
 public:
     // constructor
-    Advance();
+    Advance(GameEngine* game);
     // destructor
     ~Advance();
     // stream insertion operator
@@ -68,7 +77,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -78,13 +87,15 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
 class BombCardOrder : public Order {
 public:
     //constructor
-    BombCardOrder();
+    BombCardOrder(GameEngine* game);
     // destructor
     ~BombCardOrder();
     // stream insertion operator
@@ -93,7 +104,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -103,13 +114,15 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
 class BlockadeCardOrder : public Order {
 public:
     // constructor
-    BlockadeCardOrder();
+    BlockadeCardOrder(GameEngine* game);
     // destructor
     ~BlockadeCardOrder();
     // stream insertion operator
@@ -117,7 +130,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -127,13 +140,15 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
 class AirliftCardOrder : public Order {
 public:
     // constructor
-    AirliftCardOrder();
+    AirliftCardOrder(GameEngine* game);
     // destructor
     ~AirliftCardOrder();
     // stream insertion operator
@@ -141,7 +156,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -151,13 +166,15 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
 class Negotiate : public Order {
 public:
     //constructor
-    Negotiate();
+    Negotiate(GameEngine* game);
     // destructor
     ~Negotiate();
     // stream insertion operator
@@ -165,7 +182,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -175,10 +192,12 @@ public:
 
 private:
     // string for type of order
-    const static string _orderType;
+    static string _orderType;
+    GameEngine* game;
+
 };
 
-class OrdersList {
+class OrdersList  : public ILoggable, public Subject{
 public:
     // constructor
     OrdersList();
@@ -199,6 +218,9 @@ public:
     void remove(int);
     // execute then delete orders from list sequentially
     void executeList();
+
+    string stringToLog();
+
 
 private:
     // list of orders

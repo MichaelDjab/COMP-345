@@ -11,6 +11,7 @@
 Command::Command(Observer* _obs) {
     this->typed_command = "";
     this->Attach(_obs);
+    logger = _obs;
 }
 
 /**
@@ -18,8 +19,10 @@ Command::Command(Observer* _obs) {
  *
  * @param typed_command
  */
-Command::Command(string typed_command) {
+Command::Command(string typed_command, Observer* _obs) {
     this->typed_command = typed_command;
+    this->Attach(_obs);
+
 }
 
 /**
@@ -107,6 +110,7 @@ CommandProcessor::CommandProcessor() {
 
 CommandProcessor::CommandProcessor(Observer* _obs) {
     this->Attach(_obs);
+    logger = _obs;
 }
 
 /**
@@ -207,7 +211,7 @@ Command* CommandProcessor::readCommand(){
     cout << "\n\t\tPlease enter command to move to the next state:  ";
     cin >> string_command;
     cout << "\033[1;31m\t[Exiting readCommand()]]\033[0m\n" << endl;
-    return new Command(string_command);
+    return new Command(string_command, logger);
 }
 
 /**

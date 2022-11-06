@@ -6,6 +6,7 @@
 /**
  * Free function to test Order and OrdersList
  */
+ /*
 void testOrdersList() {
     // create new orders' list and one order of each kind
     OrdersList* ol = new OrdersList;
@@ -55,4 +56,4 @@ void testOrdersList() {
     // cleanup
     delete ol;
     ol = NULL;
-}
+}*/

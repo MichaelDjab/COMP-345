@@ -29,7 +29,6 @@ void Subject::Detach(Observer* o){
     }
 }
 void Subject::Notify(ILoggable* _loggable_object){
-    //cout << _loggable_object->stringToLog() << endl;
     if(_observers != nullptr){
         _observers->Update(_loggable_object);
     }

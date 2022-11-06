@@ -37,7 +37,7 @@ public:
      *
      * @param typed_command
      */
-    Command(string typed_command);
+    Command(string typed_command, Observer* _obs);
 
     /**
      * @brief Copy constructor: Construct a new Command object
@@ -77,10 +77,14 @@ public:
     void set_command_effect(string command_effect);
     string stringToLog();
 
+
+
 private:
     // Private typed command and command effect
     string typed_command;
     string command_effect;
+    Observer* logger;
+
 
 };
 
@@ -145,9 +149,12 @@ public:
     vector<Command*> get_commands();
     void set_commands(vector <Command*> commands);
 
+
 private:
     // Private methods and command list
     vector<Command*> commands;
+    Observer* logger;
+
 
     /**
      * @brief Stores the command internally in a collection of Command objects
