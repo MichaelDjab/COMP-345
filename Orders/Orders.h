@@ -1,16 +1,13 @@
-//
-// Created by Alice on 2022-09-26.
-//
-
 #pragma once
 #include <iostream>
 #include <vector>
 #include <string>
+#include "../LoggingObserver/LoggingObserver.h"
 using namespace std;
 
 class GameEngine;
 
-class Order {
+class Order : public ILoggable, public Subject{
 public:
     // constructor
     Order();
@@ -24,13 +21,15 @@ public:
     // verifies if order is valid
     virtual bool validate() const = 0;
     // execute order
-    virtual void execute() const = 0;
+    virtual void execute() = 0;
     // get order type
     virtual string getOrderType() const = 0;
     // clone order
     virtual Order* clone() const = 0;
     // return order effect string
     virtual string orderEffect() const = 0;
+
+    string stringToLog();
 
     friend class OrdersList;
 };
@@ -39,6 +38,7 @@ class Deploy : public Order {
 public:
     // constructor
     Deploy();
+    explicit Deploy(GameEngine* game);
     // destructor
     ~Deploy();
     // stream insertion operator
@@ -46,7 +46,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -70,7 +70,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -95,7 +95,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -119,7 +119,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -143,7 +143,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -167,7 +167,7 @@ public:
     // verifies if order is valid
     bool validate() const override;
     // execute order
-    void execute() const override;
+    void execute() override;
     // get order type
     string getOrderType() const override;
     // clone order
@@ -180,10 +180,12 @@ private:
     const static string _orderType;
 };
 
-class OrdersList {
+class OrdersList : public ILoggable, public Subject{
 public:
     // constructor
     OrdersList();
+
+    OrdersList(GameEngine* game);
     // copy constructor
     OrdersList(const OrdersList &ol);
     // destructor
@@ -206,6 +208,7 @@ public:
     Order* getTopOrder();
     vector<Order*> getOrderList();
 
+    string stringToLog();
 private:
     // list of orders
     vector<Order*> _ordersList;

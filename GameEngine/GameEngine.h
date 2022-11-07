@@ -27,22 +27,25 @@ class CommandProcessor;
 //         of the game. With the currentState object, the game engine is able to transition to valid states from
 //         appropriate user input.
 //
-class GameEngine {
+class GameEngine : public ILoggable, public Subject {
 
 private:
     class State* currentState;
     Deck* deck;
     CommandProcessor* commandProcessor;
+    Observer* _gameObserver = nullptr;
 //    vector<Player*> players;
 //    Map* map;
 public:
     GameEngine(); //default constructor
     GameEngine(int numPlayers);
+    GameEngine(Observer* obs);
     ~GameEngine(); //destructor
     GameEngine(State* state); //parametrized constructor
     GameEngine(const GameEngine& g); //copy constructor
     GameEngine& operator =(const GameEngine& g); //assignment operator
     State* getCurrentState(); //currentState getter
+    Observer* getObserver();
     void setCurrentState(State* state); //currentState setter
     void nextState(State* nextState); //method to change state
     static int turn; //count iterations of main game phase
@@ -54,6 +57,8 @@ public:
     void executeOrdersPhase();
     void mainGameLoop();
     void issueOrderPhase();
+
+    string stringToLog();
 };
 
 

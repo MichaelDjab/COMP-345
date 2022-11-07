@@ -43,6 +43,13 @@ GameEngine::GameEngine(int numPlayers) {
     }
 }
 
+GameEngine::GameEngine(Observer *obs) {
+    currentState = new startupState();
+    _gameObserver = obs;
+    this->Attach(obs);
+}
+
+
 //destructor
 GameEngine::~GameEngine() {
     delete currentState;
@@ -78,6 +85,10 @@ State *GameEngine::getCurrentState() {
     return currentState;
 }
 
+Observer *GameEngine::getObserver() {
+    return _gameObserver;
+}
+
 //setter for currentState of the game
 void GameEngine::setCurrentState(State *state) {
     currentState = state;
@@ -87,6 +98,7 @@ void GameEngine::setCurrentState(State *state) {
 void GameEngine::nextState(State *nextState) {
     delete this->currentState;
     this->setCurrentState(nextState);
+    Notify(this);
 }
 
 void GameEngine::startupPhase() {
@@ -201,6 +213,11 @@ void GameEngine::issueOrderPhase() {
         }
     }
 }
+
+string GameEngine::stringToLog() {
+    return "Currently in " + this->getCurrentState()->getStateName() + " state";
+}
+
 //
 //ABSTRACT STATE CLASS
 //

@@ -3,6 +3,7 @@
 //
 
 #include "Orders.h"
+#include "../GameEngine/GameEngine.h"
 
 using namespace std;
 
@@ -45,10 +46,19 @@ Order& Order::operator=(const Order& o) {
     return *this;
 }
 
+string Order::stringToLog() {
+    return "Order executed : " + this->getOrderType();
+}
+
 /**
  * Default constructor for Deploy
  */
 Deploy::Deploy() = default;
+
+//Constructor with gameEngine
+Deploy::Deploy(GameEngine* game) {
+    this->Attach(game->getObserver());
+}
 
 /**
  * Default destructor for Deploy
@@ -78,10 +88,11 @@ bool Deploy::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void Deploy::execute() const {
+void Deploy::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -142,10 +153,11 @@ bool Advance::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void Advance::execute() const {
+void Advance::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -206,10 +218,11 @@ bool BombCardOrder::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void BombCardOrder::execute() const {
+void BombCardOrder::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -269,10 +282,11 @@ bool BlockadeCardOrder::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void BlockadeCardOrder::execute() const {
+void BlockadeCardOrder::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -333,10 +347,11 @@ bool AirliftCardOrder::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void AirliftCardOrder::execute() const {
+void AirliftCardOrder::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -397,10 +412,11 @@ bool Negotiate::validate() const {
 /**
  * Execute method - prints order effect if validate returns true
  */
-void Negotiate::execute() const {
+void Negotiate::execute() {
     if (validate()) {
         cout << "Executing " << *this << " order. \n";
         cout << orderEffect() << "\n\n";
+        Notify(this);
     }
 }
 
@@ -432,6 +448,11 @@ string Negotiate::orderEffect() const {
  * Default constructor for OrdersList
  */
 OrdersList::OrdersList() = default;
+
+OrdersList::OrdersList(GameEngine *game) {
+    this->Attach(game->getObserver());
+}
+
 
 /**
  * Destructor for OrdersList
@@ -504,6 +525,7 @@ OrdersList& OrdersList::operator=(const OrdersList& ol) {
 void OrdersList::add(Order* o) {
     // add new order to vector
     _ordersList.push_back(o);
+    Notify(this);
 }
 
 /**
@@ -594,4 +616,10 @@ Order* OrdersList::getTopOrder() {
 
 vector<Order *> OrdersList::getOrderList() {
     return _ordersList;
+}
+
+string OrdersList::stringToLog() {
+    string lastOrder = _ordersList.back()->getOrderType();
+
+    return "Order Issued: " + lastOrder;
 }

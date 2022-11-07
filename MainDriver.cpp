@@ -3,6 +3,7 @@
 #include "Orders/OrdersDriver.h"
 #include "Player/PlayerDriver.h"
 #include "GameEngine/GameEngineDriver.h"
+#include "LoggingObserver/LoggingObserverDriver.h"
 
 
 
@@ -14,7 +15,7 @@ int main()
 //	testLoadMaps();
 //
 //    // Player
-    testPlayers();
+//    testPlayers();
 //
 //    //Orders list
 //    testOrdersList();
@@ -23,6 +24,8 @@ int main()
 //    testCards();
 //
 //    //GameEngine
-//    testGameStates();
+    //testGameStates();
+
+    testLoggingObserver();
 }
 
