@@ -48,6 +48,7 @@ private:
 class CheaterPlayerStrategy : public PlayerStrategy{
 
 public:
+    CheaterPlayerStrategy(Player *player);
     void issueOrder() override;
     vector<Territory*> toAttack() override;
     vector<Territory*> toDefend() override;

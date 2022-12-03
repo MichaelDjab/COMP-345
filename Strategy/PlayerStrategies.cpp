@@ -106,16 +106,39 @@ string NeutralPlayerStrategy::getStrategyName() const {
 // CHEATER PLAYER STRATEGY
 // *****************************************************************************************************************
 
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* player) : PlayerStrategy(player) {
+    player->setStrategy(this);
+}
+
 void CheaterPlayerStrategy::issueOrder() {
+    vector<Territory*> enemy_adjacent_territories = this->toAttack();
+    for (Territory* terr : enemy_adjacent_territories){
+        terr->set_owner(this->player);
+    }
+    player->setIsDoneIssuingOrders(true);
 }
 
 vector<Territory *> CheaterPlayerStrategy::toAttack() {
-    return vector<Territory *>();
+    vector<Territory *> toAttackTerritories;
+    for (Territory *ownedTerritory: player->getTerritories()) { //for each owned territory
+        for (Territory *neighborTerritory: ownedTerritory->get_neighbours()) { //for each owned territory's neighbour
+            if (neighborTerritory->get_owner() != player) {  //if the current player does not own the neighbor territory
+                // check if territory is already in toAttackTerritories
+                auto it = find_if(toAttackTerritories.begin(), toAttackTerritories.end(),
+                                  [&neighborTerritory](Territory *t) {
+                                      return t->get_id() == neighborTerritory->get_id();
+                                  });
+                if (it == toAttackTerritories.end()) { //if territory is not already in toAttackTerritories add it
+                    toAttackTerritories.push_back(neighborTerritory);
+                }
+            }
+        }
+    }
+    return toAttackTerritories;
 }
 
 vector<Territory *> CheaterPlayerStrategy::toDefend() {
-    return vector<Territory *>();
-}
+    return player->getTerritories();}
 
 string CheaterPlayerStrategy::getStrategyName() const {
     return strategyName;
